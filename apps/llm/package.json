@@ -1,0 +1,33 @@
+{
+  "name": "@chuchube/llm",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "eval:sales": "python3 src/scripts/eval_sales.py --base-url http://127.0.0.1:8080 --out eval_sales_report.json"
+  },
+  "dependencies": {
+    "@google/genai": "^1.38.0",
+    "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.91.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^7.0.0",
+    "resend": "^6.8.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.19.7",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3"
+  }
+}

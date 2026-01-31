@@ -1,0 +1,1 @@
+ALTER TABLE "categories" ALTER COLUMN "goal_type" SET NOT NULL;

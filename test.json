@@ -1,0 +1,20 @@
+{
+  "baby": {
+    "idle": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/baby-idle.gif",
+    "happy": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/baby-happy.gif",
+    "hungry": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/baby-hungry.gif",
+    "sleepy": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/baby-sleepy.gif"
+  },
+  "adult": {
+    "idle": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/adult-idle.gif",
+    "happy": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/adult-happy.gif",
+    "hungry": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/adult-hungry.gif",
+    "sleepy": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/adult-sleepy.gif"
+  },
+  "mythic": {
+    "idle": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/mythic-idle.gif",
+    "happy": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/mythic-happy.gif",
+    "hungry": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/mythic-hungry.gif",
+    "sleepy": "https://myrqbbiyobjqrxdrkpbc.supabase.co/storage/v1/object/public/companions/user_38gvNoM52RbHOKNM8eN81vNFFJ3/f77d09f4-01cd-42e4-9281-c0bbb48d7996/mythic-sleepy.gif"
+  }
+}

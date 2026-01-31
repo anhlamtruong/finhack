@@ -1,0 +1,58 @@
+{
+  "ts": 1769761492,
+  "base_url": "http://127.0.0.1:8080",
+  "expectations": {
+    "women_basic_reasons_debug": {
+      "ok": true,
+      "womenFocus": true,
+      "queryUsedPresent": true,
+      "countEqualsItemsLen": true,
+      "hasDebug": true,
+      "debugHasQuerySent": true,
+      "debugHasCache": true,
+      "itemsMin1": true,
+      "itemsAllHaveTitleUrlSource": true,
+      "reasonsPresentTopN": true,
+      "factsCategoriesCount": 0
+    },
+    "plain_basic_reasons_debug": {
+      "ok": true,
+      "womenFocus": false,
+      "queryUsedPresent": true,
+      "countEqualsItemsLen": true,
+      "hasDebug": true,
+      "debugHasQuerySent": true,
+      "debugHasCache": true,
+      "itemsMin1": true,
+      "itemsAllHaveTitleUrlSource": true,
+      "reasonsPresentTopN": true,
+      "factsCategoriesCount": 0
+    },
+    "price_cap_filters": {
+      "ok": true,
+      "womenFocus": true,
+      "queryUsedPresent": true,
+      "countEqualsItemsLen": true,
+      "hasDebug": true,
+      "debugHasQuerySent": true,
+      "debugHasCache": true,
+      "itemsMin1": true,
+      "itemsAllHaveTitleUrlSource": true,
+      "reasonsPresentTopN": true,
+      "factsCategoriesCount": 0
+    },
+    "facts_enrichment_all_domains": {
+      "ok": true,
+      "womenFocus": true,
+      "queryUsedPresent": true,
+      "countEqualsItemsLen": true,
+      "hasDebug": true,
+      "debugHasQuerySent": true,
+      "debugHasCache": true,
+      "itemsMin1": true,
+      "itemsAllHaveTitleUrlSource": true,
+      "reasonsPresentTopN": true,
+      "factsCategoriesCount": 0
+    }
+  }
+}

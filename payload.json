@@ -1,0 +1,15 @@
+{
+  "type": "INSERT",
+  "table": "transactions",
+  "schema": "public",
+  "record": {
+    "id": "test_tx_123",
+    "amount": 5000,
+    "payee": "Starbucks Local",
+    "notes": "Coffee run",
+    "date": "2024-05-20T10:00:00Z",
+    "account_id": "acc_main_01",
+    "category_id": "cat_food_01"
+  },
+  "old_record": null
+}

@@ -1,0 +1,233 @@
+{
+  "generatedAtIso": "2026-01-30T03:32:24Z",
+  "baseUrl": "http://127.0.0.1:8080",
+  "summary": {
+    "cases": 5,
+    "passed": 5,
+    "failed": 0
+  },
+  "results": [
+    {
+      "id": "ping",
+      "endpoint": "/v1/sales/ping",
+      "request": {},
+      "status": 200,
+      "response_ok": true,
+      "router_version": "2026-01-29.sales.11",
+      "elapsed_ms": 11,
+      "checks": [
+        {
+          "name": "ok_true",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "route_is_sales/ping",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "http_2xx",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "search_women",
+      "endpoint": "/v1/sales/search",
+      "request": {
+        "query": "period day kit",
+        "womenFocus": true,
+        "maxResults": 12,
+        "gl": "us",
+        "hl": "en"
+      },
+      "status": 200,
+      "response_ok": true,
+      "router_version": "2026-01-29.sales.11",
+      "elapsed_ms": 98,
+      "checks": [
+        {
+          "name": "ok_true",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "items_array",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "count<=maxResults",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "items_have_title_url",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "no_duplicate_urls",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "http_2xx",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "search_plain",
+      "endpoint": "/v1/sales/search",
+      "request": {
+        "query": "Always pads size 2",
+        "womenFocus": false,
+        "maxResults": 12,
+        "gl": "us",
+        "hl": "en"
+      },
+      "status": 200,
+      "response_ok": true,
+      "router_version": "2026-01-29.sales.11",
+      "elapsed_ms": 33,
+      "checks": [
+        {
+          "name": "ok_true",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "items_array",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "count<=maxResults",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "items_have_title_url",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "no_duplicate_urls",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "http_2xx",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "search_price_cap",
+      "endpoint": "/v1/sales/search",
+      "request": {
+        "query": "period day kit",
+        "womenFocus": true,
+        "maxResults": 12,
+        "priceMax": 40,
+        "gl": "us",
+        "hl": "en"
+      },
+      "status": 200,
+      "response_ok": true,
+      "router_version": "2026-01-29.sales.11",
+      "elapsed_ms": 50,
+      "checks": [
+        {
+          "name": "ok_true",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "items_array",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "count<=maxResults",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "items_have_title_url",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "no_duplicate_urls",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "priceMax_respected",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "http_2xx",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "suggest_selfcare",
+      "endpoint": "/v1/sales/suggest",
+      "request": {
+        "goal": "selfcare",
+        "budgetMax": 60
+      },
+      "status": 200,
+      "response_ok": true,
+      "router_version": "2026-01-29.sales.11",
+      "elapsed_ms": 1,
+      "checks": [
+        {
+          "name": "ok_true",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "suggestions_array",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "suggestions_nonempty",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "suggestions_count>=5",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "budget_included",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "http_2xx",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+import { authedProcedure, createTRPCRouter, publicProcedure } from "../init";
+import { z } from "zod";
+import {
+  acceptInvite,
+  companionInteract,
+  declineInvite,
+  deleteAccount,
+  deleteAccounts,
+  deleteCategories,
+  deleteCategory,
+  deleteTransaction,
+  deleteTransactions,
+  generateMonthlyReport,
+  getAccount,
+  getAccountInvites,
+  getAccounts,
+  getAiSummary,
+  getCategories,
+  generateDraft,
+  createCompanion,
+  getCompanions,
+  getCompanion,
+  updateCompanion,
+  deleteCompanion,
+  getCategory,
+  getIncomingInvites,
+  getMonthlyReports,
+  getSummary,
+  getTransaction,
+  getTransactions,
+  getWalletMembers,
+  getWalletSplitSummary,
+  inviteUserToAccount,
+  patchAccount,
+  patchCategory,
+  patchTransaction,
+  postAccount,
+  postCategory,
+  postTransaction,
+  postTransactions,
+  removeWalletMember,
+  revokeInvite,
+  updateWalletSplit,
+} from "../procedures";
+
+export const appRouter = createTRPCRouter({
+  hello: publicProcedure
+    .input(z.object({ text: z.string() }))
+    .query(({ input }) => {
+      return {
+        greeting: `Hello ${input.text} from Hono + tRPC!`,
+      };
+    }),
+  authHello: authedProcedure
+    .input(z.object({ text: z.string() }))
+    .query(({ input }) => {
+      return {
+        greeting: `Hello ${input.text} from Authed Hono + tRPC!`,
+      };
+    }),
+  getAccounts,
+  getAccount,
+  postAccount,
+  deleteAccounts,
+  updateAccount: patchAccount,
+  deleteAccount,
+  inviteUserToAccount,
+  acceptInvite,
+  declineInvite,
+  revokeInvite,
+  getAccountInvites,
+  getIncomingInvites,
+  getWalletMembers,
+  getWalletSplitSummary,
+  removeWalletMember,
+  updateWalletSplit,
+  deleteCategories,
+  getCategories,
+  postCategory,
+  getCategory,
+  updateCategory: patchCategory,
+  deleteCategory,
+  deleteTransactions,
+  getTransactions,
+  postTransaction,
+  postTransactions,
+  getTransaction,
+  patchTransaction,
+  deleteTransaction,
+  getSummary,
+  getAiSummary,
+  generateDraft,
+  createCompanion,
+  getCompanions,
+  getCompanion,
+  updateCompanion,
+  deleteCompanion,
+  companionInteract,
+  getMonthlyReports,
+  generateMonthlyReport,
+});
+
+export type AppRouter = typeof appRouter;

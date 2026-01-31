@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "drizzle-orm/": "/drizzle-orm/",
+    "postgres": "npm:postgres",
+    "resend": "npm:resend",
+    "@shared/": "../_shared/"
+  }
+}

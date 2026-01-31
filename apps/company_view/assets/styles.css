@@ -1,0 +1,275 @@
+/* apps/company_view/assets/styles.css */
+
+/* ---------- Color tokens ---------- */
+:root{
+  --navy-900:#070B1A;
+  --navy-800:#0B1026;
+  --navy-700:#111A3A;
+  --navy-600:#17224A;
+
+  --pink-600:#FF3D9A;
+  --pink-500:#FF5BB0;
+  --pink-400:#FF86C8;
+  --pink-200:#FFD1E8;
+
+  --white:#FFFFFF;
+  --ink:#0B1026;
+  --muted:#6B7280;
+
+  --border:rgba(17, 26, 58, .12);
+  --shadow:0 18px 40px rgba(7, 11, 26, .12);
+  --glow:0 0 0 3px rgba(255, 61, 154, .16);
+}
+
+/* ---------- Global ---------- */
+html, body, [class*="css"]{
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+}
+
+.stApp{
+  background:
+    radial-gradient(1200px 800px at 12% 0%, rgba(255, 61, 154, .22), transparent 55%),
+    radial-gradient(900px 600px at 88% 10%, rgba(255, 134, 200, .16), transparent 55%),
+    radial-gradient(900px 700px at 50% 120%, rgba(23, 34, 74, .55), transparent 60%),
+    linear-gradient(180deg, var(--navy-900) 0%, var(--navy-800) 45%, var(--navy-700) 100%);
+}
+
+/* reduce Streamlit top whitespace a bit */
+.block-container { padding-top: 1.1rem; padding-bottom: 2.25rem; }
+
+/* ---------- Sidebar (NAVY base, PINK accents) ---------- */
+section[data-testid="stSidebar"]{
+  background:
+    radial-gradient(900px 600px at 30% 0%, rgba(255, 61, 154, .22), transparent 55%),
+    linear-gradient(180deg, var(--navy-900) 0%, var(--navy-800) 55%, var(--navy-700) 100%) !important;
+  border-right: 1px solid rgba(255,255,255,.06);
+}
+section[data-testid="stSidebar"] *{
+  color: rgba(255,255,255,.92) !important;
+}
+section[data-testid="stSidebar"] a{
+  color: rgba(255,255,255,.92) !important;
+  text-decoration: none !important;
+  font-weight: 800;
+}
+
+/* Sidebar page list items (best effort selectors; Streamlit changes classnames often) */
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"]{
+  padding-top: .25rem;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] a{
+  display: block;
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin: 6px 0;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.06);
+  transition: all .18s ease;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] a:hover{
+  background: rgba(255, 61, 154, .14);
+  border: 1px solid rgba(255, 61, 154, .35);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+}
+
+/* ---------- Header / Hero card ---------- */
+.company-header{
+  background:
+    radial-gradient(900px 400px at 20% 0%, rgba(255, 61, 154, .38), transparent 55%),
+    linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 55%, rgba(255, 61, 154, .35) 120%);
+  color: white;
+  padding: 18px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 20px 40px rgba(7, 11, 26, .35);
+  margin-bottom: 12px;
+}
+
+/* ---------- “Top navbar” pills (for st.page_link area) ---------- */
+.navbar{ display:flex; gap:10px; flex-wrap:wrap; margin: 8px 0 14px 0; }
+.navpill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  color: rgba(255,255,255,.92);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 950;
+  box-shadow: 0 14px 26px rgba(0,0,0,.22);
+  transition: all .16s ease;
+}
+.navpill:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255, 61, 154, .38);
+  background: rgba(255, 61, 154, .12);
+  box-shadow: 0 20px 38px rgba(255, 61, 154, .18);
+}
+
+/* ---------- Buttons (PINK primary) ---------- */
+.stButton>button{
+  background: linear-gradient(135deg, var(--pink-600) 0%, var(--pink-500) 55%, var(--pink-400) 120%) !important;
+  border: 0 !important;
+  color: white !important;
+  border-radius: 14px !important;
+  font-weight: 950 !important;
+  padding: .62rem 1rem !important;
+  box-shadow: 0 18px 32px rgba(255, 61, 154, .22) !important;
+  transition: all .16s ease !important;
+}
+.stButton>button:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 24px 44px rgba(255, 61, 154, .30) !important;
+}
+.stButton>button:focus{
+  outline: none !important;
+  box-shadow: 0 0 0 4px rgba(255, 61, 154, .22), 0 24px 44px rgba(255, 61, 154, .30) !important;
+}
+
+/* ---------- Inputs / Selects ---------- */
+input, textarea{
+  border-radius: 12px !important;
+}
+div[data-baseweb="select"] > div{
+  border-radius: 12px !important;
+}
+div[data-baseweb="select"] > div:focus-within{
+  box-shadow: var(--glow) !important;
+  border-color: rgba(255, 61, 154, .35) !important;
+}
+
+/* ---------- Metric cards ---------- */
+[data-testid="stMetric"]{
+  background:
+    radial-gradient(700px 240px at 20% 0%, rgba(255, 61, 154, .10), transparent 55%),
+    rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 18px;
+  padding: 14px 14px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+[data-testid="stMetricLabel"]{
+  color: rgba(255,255,255,.70) !important;
+  font-weight: 900 !important;
+}
+[data-testid="stMetricValue"]{
+  color: rgba(255,255,255,.96) !important;
+  font-weight: 950 !important;
+  letter-spacing: -.02em;
+}
+[data-testid="stMetricDelta"]{
+  font-weight: 900 !important;
+}
+
+/* ---------- Charts + Dataframes ---------- */
+[data-testid="stDataFrame"]{
+  background: rgba(255,255,255,.04);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 18px 40px rgba(0,0,0,.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.js-plotly-plot, .plot-container{
+  border-radius: 16px;
+}
+
+/* ---------- Tabs (make them consistent on every page) ---------- */
+div[data-testid="stTabs"] > div[role="tablist"]{
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 16px;
+  padding: 6px;
+  box-shadow: 0 14px 26px rgba(0,0,0,.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+div[data-testid="stTabs"] button[role="tab"]{
+  border-radius: 12px !important;
+  font-weight: 950 !important;
+  color: rgba(255,255,255,.82) !important;
+}
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"]{
+  background: linear-gradient(135deg, rgba(255,61,154,.26) 0%, rgba(255,255,255,.06) 55%, rgba(17,26,58,.55) 120%) !important;
+  color: white !important;
+  box-shadow: 0 14px 26px rgba(255, 61, 154, .18);
+  border: 1px solid rgba(255, 61, 154, .35) !important;
+}
+
+/* ---------- Expanders ---------- */
+.streamlit-expanderHeader{
+  background: rgba(255,255,255,.06) !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+  border-radius: 14px !important;
+  font-weight: 950 !important;
+  color: rgba(255,255,255,.92) !important;
+  box-shadow: 0 14px 26px rgba(0,0,0,.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ---------- Toasts / alerts ---------- */
+.stAlert{
+  border-radius: 14px !important;
+}
+
+/* ---------- Nice “card” helper if you use st.markdown ---------- */
+.card{
+  background:
+    radial-gradient(700px 240px at 20% 0%, rgba(255, 61, 154, .10), transparent 55%),
+    rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 18px;
+  padding: 16px 16px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ---------- General text + headings on dark background ---------- */
+h1, h2, h3, h4, h5, h6{
+  color: rgba(255,255,255,.95) !important;
+}
+.stMarkdown, .stMarkdown p, .stCaption, label{
+  color: rgba(255,255,255,.82) !important;
+}
+
+/* Make Streamlit widget labels readable on dark */
+[data-testid="stWidgetLabel"]{
+  color: rgba(255,255,255,.78) !important;
+  font-weight: 850 !important;
+}
+
+/* Inputs: dark glass */
+input, textarea{
+  background: rgba(255,255,255,.06) !important;
+  color: rgba(255,255,255,.92) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+}
+input:focus, textarea:focus{
+  box-shadow: var(--glow) !important;
+  border-color: rgba(255, 61, 154, .35) !important;
+  outline: none !important;
+}
+
+/* Selects: dark glass */
+div[data-baseweb="select"] > div{
+  background: rgba(255,255,255,.06) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  color: rgba(255,255,255,.92) !important;
+}
+
+/* Plotly + Vega containers: subtle rounding */
+[data-testid="stPlotlyChart"], [data-testid="stVegaLiteChart"]{
+  background: rgba(255,255,255,.04);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 18px 40px rgba(0,0,0,.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}

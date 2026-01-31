@@ -1,0 +1,23 @@
+macbook@Stephens-McDonalds-air chuchube-finance % curl -sS http://127.0.0.1:8080/v1/sales/ping | jq .ok
+
+curl -sS -X POST http://127.0.0.1:8080/v1/sales/suggest \
+  -H "Content-Type: application/json" \
+  -d '{"goal":"career","budgetMax":80}' | jq '.ok, (.suggestions|length)'
+
+curl -sS --max-time 25 -X POST http://127.0.0.1:8080/v1/sales/search \
+  -H "Content-Type: application/json" \
+  -d '{"query":"period day kit","womenFocus":true,"maxResults":12,"priceMax":40,"gl":"us","hl":"en"}' \
+| jq '.ok,.count, ([.items[].price]|max)'
+
+curl -sS -X POST http://127.0.0.1:8080/v1/sales/feedback \
+  -H "Content-Type: application/json" \
+  -d '{"userId":"demo","action":"click","query":"period day kit","itemUrl":"https://example.com/item","itemTitle":"Example item","reason":"good price"}' \
+| jq '.ok,.stored'
+true
+true
+11
+true
+12
+38
+true
+true

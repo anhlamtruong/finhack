@@ -1,0 +1,1 @@
+ALTER TABLE "transactions" ADD COLUMN "settlement_to_user_id" text;

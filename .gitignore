@@ -1,0 +1,25 @@
+node_modules
+.env
+.DS_Store
+dist
+.next
+# Python caches
+__pycache__/
+*.pyc
+
+# --- Terraform ---
+**/.terraform/
+**/.terraform.lock.hcl.backup
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+.terraformrc
+terraform.rc
+
+# --- local binaries / zips ---
+terraform.zip
+
+package-lock.json

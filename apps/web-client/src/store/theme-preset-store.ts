@@ -1,0 +1,50 @@
+import { create } from "zustand";
+import { ThemePreset } from "@/types/theme";
+import { defaultPresets } from "@/lib/theme-presets";
+
+interface ThemePresetStore {
+  presets: Record<string, ThemePreset>;
+  registerPreset: (name: string, preset: ThemePreset) => void;
+  unregisterPreset: (name: string) => void;
+  updatePreset: (name: string, preset: ThemePreset) => void;
+  getPreset: (name: string) => ThemePreset | undefined;
+  getAllPresets: () => Record<string, ThemePreset>;
+  // Removed loadSavedPresets and unloadSavedPresets as they are not needed for local-only
+}
+
+export const useThemePresetStore = create<ThemePresetStore>()((set, get) => ({
+  // The store initializes immediately with your local defaultPresets
+  presets: defaultPresets,
+
+  registerPreset: (name: string, preset: ThemePreset) => {
+    set((state) => ({
+      presets: {
+        ...state.presets,
+        [name]: preset,
+      },
+    }));
+  },
+  unregisterPreset: (name: string) => {
+    set((state) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [name]: _, ...remainingPresets } = state.presets;
+      return {
+        presets: remainingPresets,
+      };
+    });
+  },
+  updatePreset: (name: string, preset: ThemePreset) => {
+    set((state) => ({
+      presets: {
+        ...state.presets,
+        [name]: preset,
+      },
+    }));
+  },
+  getPreset: (name: string) => {
+    return get().presets[name];
+  },
+  getAllPresets: () => {
+    return get().presets;
+  },
+}));
