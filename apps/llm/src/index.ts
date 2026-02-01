@@ -1,7 +1,8 @@
 // apps/llm/src/index.ts
 import dns from "node:dns";
 dns.setDefaultResultOrder("ipv4first");
-import { salesRouter } from "./routes/sales.js";
+
+// Static routers (compiled to .js in dist; Node ESM requires explicit extensions)
 
 import express, {
   type NextFunction,
@@ -14,8 +15,8 @@ import cors from "cors";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promises as fs } from "node:fs";
-import { existsSync } from "node:fs";
 import { execSync } from "node:child_process";
+
 
 // NOTE: Node ESM requires file extensions for relative imports at runtime.
 // To avoid "ERR_MODULE_NOT_FOUND" issues if the emitted specifier loses ".js",
@@ -66,20 +67,22 @@ async function loadRouter(
   moduleBasePath: string,
   namedExport: string,
 ): Promise<LoadedRouter> {
-  // In dev we run via `tsx watch` so router source files are `.ts`.
-  // In production builds they are transpiled to `.js`.
-  const candidates = [`${moduleBasePath}.ts`, `${moduleBasePath}.js`];
+  // In production (dist), only .js exists.
+  // In dev (tsx), .ts exists.
+  // We also avoid importing files that don't exist to prevent misleading errors.
+  const candidates = [`${moduleBasePath}.js`, `${moduleBasePath}.ts`];
 
   let lastErr: any = null;
-  const tried: Array<{ href: string; path: string; exists: boolean }> = [];
 
   for (const p of candidates) {
     try {
       const url = new URL(p, import.meta.url);
-      const filePath = fileURLToPath(url);
-      const exists = existsSync(filePath);
-      tried.push({ href: url.href, path: filePath, exists });
-      if (!exists) {
+      const fsPath = fileURLToPath(url);
+
+      // Skip if file not present
+      try {
+        await fs.access(fsPath);
+      } catch {
         continue;
       }
 
@@ -89,9 +92,7 @@ async function loadRouter(
       if (!router) {
         const keys = Object.keys(mod ?? {});
         throw new Error(
-          `[llm] Router module '${url.href}' did not export '${namedExport}' or a default export. Available exports: ${
-            keys.join(", ")
-          }`,
+          `[llm] Router module '${p}' did not export '${namedExport}' or default. Exports: ${keys.join(", ")}`,
         );
       }
 
@@ -101,30 +102,7 @@ async function loadRouter(
     }
   }
 
-  if (!lastErr) {
-    const baseUrl = new URL(moduleBasePath, import.meta.url);
-    const dirUrl = new URL(".", baseUrl);
-    const dirPath = fileURLToPath(dirUrl);
-    const dirEntries = await fs
-      .readdir(dirPath)
-      .catch(() => [])
-      .then((items) => items.slice(0, 50));
-
-    console.error("[llm] router module not found", {
-      moduleBasePath,
-      namedExport,
-      tried,
-      dirPath,
-      dirEntries,
-      ts: new Date().toISOString(),
-    });
-
-    throw new Error(
-      `[llm] Failed to load router '${moduleBasePath}'. Files not found.`,
-    );
-  }
-
-  throw lastErr;
+  throw lastErr ?? new Error(`[llm] Failed to load router '${moduleBasePath}'`);
 }
 
 function envList(name: string, fallback: string[]) {
@@ -161,14 +139,17 @@ let mongoRouterLoadError: string | null = null;
 let healthRouter: RequestHandler;
 let transactionsRouter: RequestHandler;
 let companionRouter: RequestHandler;
+let txEventsRouter: RequestHandler;
 
 let healthRouterLoadedFrom = "(unloaded)";
 let transactionsRouterLoadedFrom = "(unloaded)";
 let companionRouterLoadedFrom = "(unloaded)";
+let txEventsRouterLoadedFrom = "(unloaded)";
 
 let healthRouterLoadError: string | null = null;
 let transactionsRouterLoadError: string | null = null;
 let companionRouterLoadError: string | null = null;
+let txEventsRouterLoadError: string | null = null;
 
 // --- Mongo endpoints ---
 mongoRouter.get("/v1/mongo/ping", async (_req: Request, res: Response) => {
@@ -262,6 +243,23 @@ try {
   }) as RequestHandler;
 }
 
+// Loads the tx_events router with the same defensive pattern.
+try {
+  const out = await loadRouter("./routes/tx_events", "txEventsRouter");
+  txEventsRouter = out.router;
+  txEventsRouterLoadedFrom = out.loadedFrom;
+  console.log(
+    `[llm] loaded txEvents router from ${txEventsRouterLoadedFrom}`,
+  );
+} catch (e: any) {
+  const errMsg = e?.message ?? "Failed to load txEvents router";
+  txEventsRouterLoadError = errMsg;
+  console.error("[llm] txEvents router load failed:", errMsg);
+  txEventsRouter = ((_req: Request, res: Response) => {
+    res.status(500).json({ ok: false, error: errMsg });
+  }) as RequestHandler;
+}
+
 const app = express();
 app.disable("x-powered-by");
 app.set("trust proxy", true);
@@ -270,8 +268,8 @@ app.set("trust proxy", true);
 // CORS
 // -----------------------------
 const corsOrigins = envList("CORS_ORIGINS", [
-  "https://chuchube.co",
-  "https://www.chuchube.co",
+  "https://finhack.app",
+  "https://www.finhack.app",
   "http://localhost:3000",
   "http://localhost:3001",
   "http://localhost:3002",
@@ -293,9 +291,8 @@ const corsMiddleware = cors({
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
 });
-
+// Apply CORS early (before routes)
 app.use(corsMiddleware);
-app.use("/v1/sales", salesRouter);
 // Preflight
 app.options(/.*/, corsMiddleware);
 // CORS error -> JSON
@@ -355,7 +352,7 @@ app.use(
 app.get("/", (_req: Request, res: Response) => {
   res.json({
     ok: true,
-    service: "chuchube-llm",
+    service: "finhack-llm",
     nowIso: nowIso(),
     version: SERVICE_VERSION,
     git: GIT_SHA,
@@ -366,7 +363,7 @@ app.get("/", (_req: Request, res: Response) => {
 app.get("/v1/_meta", (_req: Request, res: Response) => {
   res.json({
     ok: true,
-    service: "chuchube-llm",
+    service: "finhack-llm",
     ts: nowIso(),
     version: SERVICE_VERSION,
     git: GIT_SHA,
@@ -386,6 +383,10 @@ app.get("/v1/_meta", (_req: Request, res: Response) => {
       companion: {
         loadedFrom: companionRouterLoadedFrom,
         loadError: companionRouterLoadError,
+      },
+      tx_events: {
+        loadedFrom: txEventsRouterLoadedFrom,
+        loadError: txEventsRouterLoadError,
       },
     },
     env: {
@@ -582,7 +583,7 @@ async function sendViaResend(args: {
   const from = args.from ?? process.env.RESEND_FROM;
   if (!from) {
     throw new Error(
-      "[llm] Missing RESEND_FROM (e.g. 'Chuchube <no-reply@chuchube.co>')",
+      "[llm] Missing RESEND_FROM (e.g. 'FinHack <no-reply@finhack.app>')",
     );
   }
 
@@ -1088,6 +1089,10 @@ app.post("/v1/mascot/video", async (req: Request, res: Response) => {
 // Routers are mounted last so the explicit endpoints above remain stable.
 // Mongo routes are mounted at their own paths (router defines /v1/mongo/*).
 app.use(mongoRouter);
+app.use("/v1/tx", txEventsRouter);
+app.use("/v1/chat", (await import(new URL("./routes/chat.js", import.meta.url).href)).chatRouter);
+console.log("[llm] loaded chat router from ./routes/chat.js");
+app.use("/v1/sales", (await import(new URL("./routes/sales.js", import.meta.url).href)).salesRouter);
 app.use("/v1/health", healthRouter);
 app.use("/v1/transactions", transactionsRouter);
 app.use("/v1/companion", companionRouter);
