@@ -48,9 +48,9 @@
 
 ---
 
-# Finance Queens (FinHack)
+# FinHack
 
-**Finance Queens** is a women-first personal finance experience + an internal ops dashboard.
+**FinHack** is a women-first personal finance experience + an internal ops dashboard.
 
 - For users: low-friction spending capture, budget-aware guidance, and smarter purchase discovery.
 - For teams: a **Company View** dashboard that monitors trends, anomalies, and system health — with an **Employee Assistant** that explains what’s happening in plain language.
