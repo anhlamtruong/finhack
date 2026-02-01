@@ -25,6 +25,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@solana/spl-memo": "^0.2.5",
+    "@solana/web3.js": "^1.98.4",
     "drizzle-orm": "^0.45.1",
     "mongodb": "^7.0.0"
   },
