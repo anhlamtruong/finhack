@@ -21,7 +21,7 @@ const HeaderLogo = () => {
           />
         </div>
         <p className="hidden md:block font-semibold text-base md:text-xl text-foreground tracking-tight">
-          Chuchube Finance
+          FinHack Finance
         </p>
       </motion.div>
     </Link>

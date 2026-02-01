@@ -6,5 +6,6 @@ export * from "@/services/shared-wallet/types";
 export * from "@/services/categories/types";
 export * from "@/services/monthly-report/types";
 export * from "@/services/transactions/types";
+export * from "@/services/sales/types";
 export type RouterInputs = inferRouterInputs<AppRouter>;
 export type RouterOutputs = inferRouterOutputs<AppRouter>;

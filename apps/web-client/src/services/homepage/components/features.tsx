@@ -49,7 +49,7 @@ export function Features() {
             Managing money shouldn&apos;t feel like a chore
           </h2>
           <p className="text-lg text-muted-foreground">
-            We built Chuchube Finance because existing tools are too rigid and
+            We built FinHack Finance because existing tools are too rigid and
             require too much work. We believe your financial dashboard should be
             as smart, fast, and beautiful as the rest of the apps you love.
           </p>

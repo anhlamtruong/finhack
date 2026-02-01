@@ -119,7 +119,7 @@ const ThemePreviewPanel = ({
                 />
               )}
 
-              <TooltipWrapper label="Back to Chuchube Dashboard" asChild>
+              <TooltipWrapper label="Back to FinHack Dashboard" asChild>
                 <Link href="/dashboard">
                   <Button
                     variant="ghost"

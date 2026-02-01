@@ -3,7 +3,7 @@ import { accounts, transactions, walletShares } from "@/db/schema";
 import { authedProcedure } from "@/server/init";
 import { TRPCError } from "@trpc/server";
 import { and, eq, gte, lte } from "drizzle-orm";
-import { parse, subDays } from "date-fns";
+import { endOfDay, endOfMonth, parse, startOfDay, startOfMonth } from "date-fns";
 import { z } from "zod";
 import { calculateSplit } from "../utils/calculate-split";
 
@@ -56,13 +56,13 @@ export const getWalletSplitSummary = authedProcedure
           throw new TRPCError({ code: "UNAUTHORIZED" });
         }
 
-        const defaultTo = new Date();
-        const defaultFrom = subDays(defaultTo, 30);
+        const defaultTo = endOfMonth(new Date());
+        const defaultFrom = startOfMonth(defaultTo);
         const startDate = input.from
-          ? parse(input.from, "yyyy-MM-dd", new Date())
+          ? startOfDay(parse(input.from, "yyyy-MM-dd", new Date()))
           : defaultFrom;
         const endDate = input.to
-          ? parse(input.to, "yyyy-MM-dd", new Date())
+          ? endOfDay(parse(input.to, "yyyy-MM-dd", new Date()))
           : defaultTo;
 
         const acceptedShares = await dbClient

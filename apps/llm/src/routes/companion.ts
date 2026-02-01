@@ -252,7 +252,7 @@ companionRouter.post("/chat", async (req, res) => {
         system,
         user: userPrompt,
         model,
-        timeoutMs: 20000,
+        timeoutMs: 45000,
         maxOutputTokens: 10000,
         temperature: 0,
       });
@@ -272,7 +272,7 @@ companionRouter.post("/chat", async (req, res) => {
         system: relaxedSystem,
         user: userPrompt,
         model,
-        timeoutMs: 25000,
+        timeoutMs: 45000,
         maxOutputTokens: 12000,
         temperature: 0,
       });

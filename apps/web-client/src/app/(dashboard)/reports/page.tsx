@@ -56,6 +56,24 @@ const ReportsPage = () => {
     const categoryById = new Map(
       categories.map((category) => [category.id, category]),
     );
+    const transactionCategories: typeof categories = [];
+
+    for (const transaction of transactions) {
+      if (!transaction.categoryId) continue;
+      if (categoryById.has(transaction.categoryId)) continue;
+
+      const fallbackCategory = {
+        id: transaction.categoryId,
+        name: transaction.category?.name ?? "Uncategorized",
+        monthlyBudget: transaction.category?.monthlyBudget ?? 0,
+        goalType: transaction.category?.goalType ?? "expense",
+        userId: "",
+        plaidId: null,
+      };
+
+      categoryById.set(transaction.categoryId, fallbackCategory);
+      transactionCategories.push(fallbackCategory);
+    }
     const spentByCategoryId = new Map<string, number>();
 
     for (const transaction of transactions) {
@@ -65,21 +83,28 @@ const ReportsPage = () => {
 
       const isSaving = category.goalType === "saving";
       const isExpense = category.goalType === "expense";
-      const isPositive = transaction.amount > 0;
-      const isNegative = transaction.amount < 0;
 
-      if ((isSaving && !isPositive) || (isExpense && !isNegative)) {
+      if (isExpense && transaction.amount >= 0) {
         continue;
       }
 
-      const delta = Math.abs(transaction.amount);
+      if (!isSaving && !isExpense) {
+        continue;
+      }
+
+      const delta = isSaving
+        ? transaction.amount
+        : Math.abs(transaction.amount);
       const current = spentByCategoryId.get(transaction.categoryId) ?? 0;
       spentByCategoryId.set(transaction.categoryId, current + delta);
     }
 
     const ownerName = user?.username || user?.firstName || "Owner";
 
-    return categories.map((category) => {
+    const sharedOwnerName = ownerName === "Owner" ? "Shared" : ownerName;
+    const mergedCategories = [...categories, ...transactionCategories];
+
+    return mergedCategories.map((category) => {
       const spent = spentByCategoryId.get(category.id) ?? 0;
       const variance = (category.monthlyBudget ?? 0) - spent;
       return {
@@ -89,7 +114,7 @@ const ReportsPage = () => {
         spent,
         variance,
         goalType: category.goalType,
-        ownerName,
+        ownerName: category.userId ? ownerName : sharedOwnerName,
       };
     });
   }, [categories, transactions, user]);

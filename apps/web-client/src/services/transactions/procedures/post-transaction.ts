@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import { db } from "@/db";
 import { authedProcedure } from "@/server/init";
 import { createSharedTransactionNotifier } from "@/services/notifications/shared-transactions";
+import { createUncategorizedTransactionNotifier } from "@/services/notifications/uncategorized-transactions";
+import { refreshMonthlyReportsForDates } from "@/services/monthly-report/utils/refresh-monthly-reports";
 
 export const postTransaction = authedProcedure
   .input(insertTransactionsSchema.omit({ id: true }))
@@ -52,13 +54,41 @@ export const postTransaction = authedProcedure
         ctx,
         rows: data ? [data] : [],
       });
+      const runUncategorizedNotify = createUncategorizedTransactionNotifier({
+        ctx,
+        rows: data ? [data] : [],
+      });
 
       if (data) {
         if (secureDb) {
-          await secureDb.rls(runNotify);
+          await secureDb.rls(async (tx) => {
+            await runNotify(tx);
+            await runUncategorizedNotify(tx);
+          });
         } else {
-          await db.transaction(async (tx) => runNotify(tx));
+          await db.transaction(async (tx) => {
+            await runNotify(tx);
+            await runUncategorizedNotify(tx);
+          });
         }
+      }
+
+      const reportDates = [data?.date ?? input.date ?? new Date()];
+
+      if (secureDb) {
+        await secureDb.rls((tx) =>
+          refreshMonthlyReportsForDates({
+            db: tx,
+            userId: ctx.user.id,
+            dates: reportDates,
+          }),
+        );
+      } else {
+        await refreshMonthlyReportsForDates({
+          db,
+          userId: ctx.user.id,
+          dates: reportDates,
+        });
       }
       return {
         status: "success",

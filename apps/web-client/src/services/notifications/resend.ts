@@ -7,8 +7,7 @@ import {
 
 const resendApiKey = process.env.RESEND_API_KEY;
 const resendFrom = process.env.RESEND_FROM ??
-  "Chuchube Finance <no-reply@chuchube.com>";
-//TODO: Follow the architechture, have a nice UI for email
+  "FinHack Finance <no-reply@chuchube.com>";
 export const sendSharedTransactionEmail = async ({
   to,
   payerEmail,
@@ -59,13 +58,23 @@ export const sendTemplatedEmail = async <T extends TemplateId>({
     return;
   }
 
-  const { html, text, subject } = renderEmailTemplate(templateId, input);
+  const rendered =
+    templateId === "shared-transaction"
+      ? renderEmailTemplate(
+          "shared-transaction",
+          input as TemplateInputMap["shared-transaction"],
+        )
+      : renderEmailTemplate(
+          "uncategorized-transaction",
+          input as TemplateInputMap["uncategorized-transaction"],
+        );
+
   const resend = new Resend(resendApiKey);
   await resend.emails.send({
     from: resendFrom,
     to,
-    subject,
-    html,
-    text,
+    subject: rendered.subject,
+    html: rendered.html,
+    text: rendered.text,
   });
 };

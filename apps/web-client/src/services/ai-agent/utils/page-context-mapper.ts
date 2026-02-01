@@ -7,7 +7,7 @@ import {
   walletShares,
 } from "@/db/schema";
 import { and, desc, eq, gte, lte, sql, sum } from "drizzle-orm";
-import { parse, subDays } from "date-fns";
+import { endOfMonth, parse, startOfMonth, subDays } from "date-fns";
 import { convertAmountFromMiliunits } from "@/lib/utils";
 
 /**
@@ -18,12 +18,65 @@ type PageContext = {
   params?: Record<string, unknown>;
 };
 
+type SalesTopDeal = {
+  title: string;
+  price?: number | null;
+  priceText?: string | null;
+  source?: string | null;
+};
+
 /**
  * Parse a date in yyyy-MM-dd format.
  */
 function parseDate(value?: unknown) {
   if (typeof value !== "string" || !value.trim()) return null;
   return parse(value, "yyyy-MM-dd", new Date());
+}
+
+function parseTopDeals(params: Record<string, unknown>) {
+  const raw = params.topDeals ?? params.deals ?? params.items;
+  if (!raw) return null;
+
+  let parsed: unknown = raw;
+  if (typeof raw === "string") {
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+
+  if (!Array.isArray(parsed)) return null;
+
+  const normalized = parsed
+    .map((deal) => {
+      if (!deal || typeof deal !== "object") return null;
+      const candidate = deal as Record<string, unknown>;
+      const title =
+        typeof candidate.title === "string" ? candidate.title.trim() : "";
+      if (!title) return null;
+
+      const parsedPrice = typeof candidate.price === "number"
+        ? candidate.price
+        : typeof candidate.price === "string"
+        ? Number(candidate.price)
+        : null;
+      const price = Number.isFinite(parsedPrice ?? NaN) ? parsedPrice : null;
+
+      return {
+        title,
+        price,
+        priceText:
+          typeof candidate.priceText === "string"
+            ? candidate.priceText
+            : null,
+        source:
+          typeof candidate.source === "string" ? candidate.source : null,
+      } satisfies SalesTopDeal;
+    })
+    .filter(Boolean) as SalesTopDeal[];
+
+  return normalized.length ? normalized.slice(0, 3) : null;
 }
 
 /**
@@ -233,6 +286,40 @@ export async function fetchPageContextData(
         : report.categoryBreakdown,
       generatedAt: report.generatedAt,
     }));
+  }
+
+  if (context.path.includes("/sales")) {
+    const rawQuery = params.q ?? params.query;
+    const query = typeof rawQuery === "string" && rawQuery.trim()
+      ? rawQuery.trim()
+      : null;
+
+    const topDeals = parseTopDeals(params);
+    const startDate = startOfMonth(new Date());
+    const endDate = endOfMonth(startDate);
+
+    const [totals] = await db
+      .select({
+        remaining: sum(transactions.amount).mapWith(Number),
+      })
+      .from(transactions)
+      .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+      .where(
+        and(
+          eq(accounts.userId, userId),
+          gte(transactions.date, startDate),
+          lte(transactions.date, endDate),
+        ),
+      );
+
+    return {
+      query,
+      topDeals,
+      summary: {
+        remaining: convertAmountFromMiliunits(Number(totals?.remaining ?? 0)),
+        range: { from: startDate.toISOString(), to: endDate.toISOString() },
+      },
+    };
   }
 
   return null;

@@ -2,6 +2,7 @@
 import dns from "node:dns";
 dns.setDefaultResultOrder("ipv4first");
 import { salesRouter } from "./routes/sales.js";
+import { audioRouter } from "./routes/audio.js";
 
 import express, {
   type NextFunction,
@@ -1091,6 +1092,7 @@ app.use(mongoRouter);
 app.use("/v1/health", healthRouter);
 app.use("/v1/transactions", transactionsRouter);
 app.use("/v1/companion", companionRouter);
+app.use("/v1/audio", audioRouter);
 
 // 404
 app.use(

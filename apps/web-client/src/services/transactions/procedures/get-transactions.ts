@@ -2,8 +2,8 @@ import { db } from "@/db";
 import { accounts, categories, transactions, walletShares } from "@/db/schema";
 import { authedProcedure } from "@/server/init";
 import { TRPCError } from "@trpc/server";
-import { parse, subDays } from "date-fns";
-import { and, desc, eq, gte, lte } from "drizzle-orm";
+import { endOfDay, endOfMonth, parse, startOfDay, startOfMonth } from "date-fns";
+import { and, desc, eq, gte, lte, or, sql } from "drizzle-orm";
 import { z } from "zod";
 
 export const getTransactions = authedProcedure
@@ -18,14 +18,16 @@ export const getTransactions = authedProcedure
     try {
       const { from, to, accountId } = input;
 
-      const defaultTo = new Date();
-      const defaultFrom = subDays(defaultTo, 30);
+      const defaultTo = endOfMonth(new Date());
+      const defaultFrom = startOfMonth(defaultTo);
 
       const startDate = from
-        ? parse(from, "yyyy-MM-dd", new Date())
+        ? startOfDay(parse(from, "yyyy-MM-dd", new Date()))
         : defaultFrom;
 
-      const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
+      const endDate = to
+        ? endOfDay(parse(to, "yyyy-MM-dd", new Date()))
+        : defaultTo;
 
       const secureDb = ctx.secureDb;
       const data = secureDb
@@ -65,7 +67,15 @@ export const getTransactions = authedProcedure
             .where(
               and(
                 accountId ? eq(transactions.accountId, accountId) : undefined,
-                eq(accounts.userId, ctx.user.id),
+                or(
+                  eq(accounts.userId, ctx.user.id),
+                  sql`exists (
+                    select 1 from wallet_shares ws
+                    where ws.account_id = ${accounts.id}
+                      and ws.user_id = ${ctx.user.id}
+                      and ws.status = 'accepted'
+                  )`,
+                ),
                 gte(transactions.date, startDate),
                 lte(transactions.date, endDate),
               ),
@@ -107,7 +117,15 @@ export const getTransactions = authedProcedure
           .where(
             and(
               accountId ? eq(transactions.accountId, accountId) : undefined,
-              eq(accounts.userId, ctx.user.id),
+              or(
+                eq(accounts.userId, ctx.user.id),
+                sql`exists (
+                  select 1 from wallet_shares ws
+                  where ws.account_id = ${accounts.id}
+                    and ws.user_id = ${ctx.user.id}
+                    and ws.status = 'accepted'
+                )`,
+              ),
               gte(transactions.date, startDate),
               lte(transactions.date, endDate),
             ),

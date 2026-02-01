@@ -69,7 +69,7 @@ const statusToTextClass = (status: ProgressStatus) =>
       : "text-primary";
 
 const isTransactionRelevant = (goalType: string, amount: number) => {
-  if (goalType === "saving") return amount > 0;
+  if (goalType === "saving") return amount !== 0;
   return amount < 0;
 };
 

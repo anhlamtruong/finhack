@@ -17,7 +17,7 @@ export const renderSharedTransactionEmail = ({
 }: SharedTransactionTemplateInput) => {
   const safeGif =
     gifUrl ??
-    "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3N6Z2JtNnU1YjZ0MDFwMGlqZ2F0cXJvZ3R5a3B1M2o1a2FqNiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/26ufdipQqU2lhNA4g/giphy.gif";
+    "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWRzMmxjdjZsY2NlZWQyM3E5ZmJhMWIyejRjcDVpMzFrZWlibHNsdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yBzRyo9EycRFseOw8Y/giphy.gif";
 
   const html = `
   <div style="margin:0;padding:0;background:#f5f6f8;font-family:Inter,Arial,sans-serif;">

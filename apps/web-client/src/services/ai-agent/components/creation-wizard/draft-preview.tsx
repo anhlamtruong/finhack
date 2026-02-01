@@ -93,7 +93,7 @@ export function DraftPreview({
                       name: event.target.value,
                     })
                   }
-                  placeholder="Chuchube"
+                  placeholder="FinHack"
                   className="bg-white/5"
                 />
               </div>

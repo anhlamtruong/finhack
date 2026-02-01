@@ -31,7 +31,7 @@ const TermsPage = () => {
           <strong>Effective Date:</strong> January 25, 2026
         </p>
         <p className="text-base text-foreground/80 leading-relaxed max-w-3xl">
-          Welcome to Chuchube Finance. By accessing or using our web
+          Welcome to FinHack Finance. By accessing or using our web
           application, dashboard, or AI-powered advisory tools, you agree to be
           bound by these Terms of Service (&quot;Terms&quot;). If you do not
           agree to these Terms, you must not access or use our services.
@@ -54,7 +54,7 @@ const TermsPage = () => {
                   Critical Disclaimer
                 </h4>
                 <p className="text-sm m-0 text-foreground/80">
-                  Chuchube Finance is a data visualization and tracking tool. We
+                  FinHack Finance is a data visualization and tracking tool. We
                   are <strong>not</strong> a bank, financial planner, broker, or
                   tax advisor. The insights provided by our &quot;AI
                   Advisor&quot; are for informational and educational purposes
@@ -79,7 +79,7 @@ const TermsPage = () => {
             </h3>
           </div>
           <p>
-            To use Chuchube Finance, you must be at least 18 years old. By using
+            To use FinHack Finance, you must be at least 18 years old. By using
             our services, you agree to:
           </p>
           <ul className="list-disc pl-6 space-y-2 mt-4">
@@ -109,10 +109,10 @@ const TermsPage = () => {
           </h3>
           <p>
             While you retain full ownership of your personal financial data
-            (&quot;User Content&quot;), the Chuchube Finance application,
+            (&quot;User Content&quot;), the FinHack Finance application,
             including but not limited to its source code, theme engine, database
             architecture, logos, and UI design, is the exclusive property of
-            Chuchube Finance.
+            FinHack Finance.
           </p>
           <p>
             You agree not to copy, modify, distribute, sell, or lease any part
@@ -129,7 +129,7 @@ const TermsPage = () => {
             </h3>
           </div>
           <p>
-            To the maximum extent permitted by law, Chuchube Finance and its
+            To the maximum extent permitted by law, FinHack Finance and its
             developers shall not be liable for any indirect, incidental,
             special, consequential, or punitive damages, including without
             limitation:

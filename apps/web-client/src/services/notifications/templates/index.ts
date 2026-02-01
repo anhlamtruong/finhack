@@ -3,11 +3,17 @@ import {
   sharedTransactionSubject,
   type SharedTransactionTemplateInput,
 } from "./shared-transaction";
+import {
+  renderUncategorizedTransactionEmail,
+  uncategorizedTransactionSubject,
+  type UncategorizedTransactionTemplateInput,
+} from "./uncategorized-transaction";
 
-export type TemplateId = "shared-transaction";
+export type TemplateId = "shared-transaction" | "uncategorized-transaction";
 
 export type TemplateInputMap = {
   "shared-transaction": SharedTransactionTemplateInput;
+  "uncategorized-transaction": UncategorizedTransactionTemplateInput;
 };
 
 export type RenderedEmail = {
@@ -21,6 +27,10 @@ export function renderEmailTemplate(
   input: TemplateInputMap["shared-transaction"],
 ): RenderedEmail;
 export function renderEmailTemplate(
+  templateId: "uncategorized-transaction",
+  input: TemplateInputMap["uncategorized-transaction"],
+): RenderedEmail;
+export function renderEmailTemplate(
   templateId: TemplateId,
   input: TemplateInputMap[TemplateId],
 ): RenderedEmail {
@@ -29,6 +39,11 @@ export function renderEmailTemplate(
       return {
         subject: sharedTransactionSubject,
         ...renderSharedTransactionEmail(input),
+      };
+    case "uncategorized-transaction":
+      return {
+        subject: uncategorizedTransactionSubject,
+        ...renderUncategorizedTransactionEmail(input),
       };
   }
 

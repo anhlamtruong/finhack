@@ -217,172 +217,208 @@ export function FloatingCompanionHUD() {
   };
 
   return (
-    <div className="pointer-events-none fixed bottom-6 right-6 z-50">
-      <motion.div
-        drag={!isTouchDevice}
-        dragElastic={isTouchDevice ? 0 : 0.2}
-        dragConstraints={{ left: -1000, right: 0, top: -500, bottom: 0 }}
-        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        whileHover={{}}
-        transition={{ type: "spring", stiffness: 180, damping: 18 }}
-        style={{ touchAction: "manipulation" }}
-        className={
-          isHolding
-            ? "pointer-events-auto relative cursor-wait"
-            : "pointer-events-auto relative active:cursor-grabbing"
-        }
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        onTouchStart={handlePointerDown}
-        onTouchEnd={handlePointerUp}
-        onTouchCancel={handlePointerUp}
-        onClick={handleClick}
-      >
-        <div className="absolute -inset-3 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.2),transparent_70%)] blur-2xl" />
+    <>
+      {/* Full viewport vertical scanner when thinking */}
+      <AnimatePresence>
         {insight === "Thinking..." || interactMutation.isPending ? (
-          <motion.div className="pointer-events-none absolute inset-1 z-20 overflow-hidden rounded-3xl">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="pointer-events-none fixed inset-0 z-[100]"
+            style={{ height: "100vh", width: "100vw" }}
+          >
+            {/* Scan line with glow effect */}
             <motion.div
-              className="absolute -left-1/2 top-0 h-full w-1/2 bg-linear-to-r from-transparent via-sky-400/35 to-transparent"
-              animate={{ x: ["-60%", "160%"] }}
+              className="absolute left-0 w-full"
+              style={{ height: "4px" }}
+              initial={{ top: 0 }}
+              animate={{ top: ["0%", "100%"] }}
               transition={{
-                duration: 1.4,
+                duration: 2,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            >
+              {/* Main scan line */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-sky-400 to-transparent" />
+              {/* Upper glow trail */}
+              <div
+                className="absolute left-0 w-full bg-gradient-to-b from-sky-400/30 via-sky-400/10 to-transparent"
+                style={{ height: "60px", bottom: "100%" }}
+              />
+              {/* Lower glow trail */}
+              <div
+                className="absolute left-0 w-full bg-gradient-to-t from-sky-400/20 via-sky-400/5 to-transparent"
+                style={{ height: "120px", top: "100%" }}
+              />
+            </motion.div>
+            {/* Subtle overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-sky-500/[0.02] to-transparent" />
+            {/* Edge vignette */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.3)_100%)]" />
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
+      <div className="pointer-events-none fixed bottom-6 right-6 z-50">
+        <motion.div
+          drag={!isTouchDevice}
+          dragElastic={isTouchDevice ? 0 : 0.2}
+          dragConstraints={{ left: -1000, right: 0, top: -500, bottom: 0 }}
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          whileHover={{}}
+          transition={{ type: "spring", stiffness: 180, damping: 18 }}
+          style={{ touchAction: "manipulation" }}
+          className={
+            isHolding
+              ? "pointer-events-auto relative cursor-wait"
+              : "pointer-events-auto relative active:cursor-grabbing"
+          }
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          onTouchStart={handlePointerDown}
+          onTouchEnd={handlePointerUp}
+          onTouchCancel={handlePointerUp}
+          onClick={handleClick}
+        >
+          <div className="absolute -inset-3 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.2),transparent_70%)] blur-2xl" />
+          {showAnalyze && isHolding && !interactMutation.isPending ? (
+            <motion.div
+              className="pointer-events-none absolute -inset-1 rounded-full border border-sky-400/50"
+              animate={{
+                boxShadow: [
+                  "0 0 0 rgba(56,189,248,0)",
+                  "0 0 24px rgba(56,189,248,0.6)",
+                  "0 0 0 rgba(56,189,248,0)",
+                ],
+              }}
+              transition={{
+                duration: 1.2,
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
             />
-          </motion.div>
-        ) : null}
-        {showAnalyze && isHolding && !interactMutation.isPending ? (
-          <motion.div
-            className="pointer-events-none absolute -inset-1 rounded-full border border-sky-400/50"
-            animate={{
-              boxShadow: [
-                "0 0 0 rgba(56,189,248,0)",
-                "0 0 24px rgba(56,189,248,0.6)",
-                "0 0 0 rgba(56,189,248,0)",
-              ],
-            }}
-            transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+          ) : null}
+          <BaseAvatar
+            asset={pickAsset(companionProfile)}
+            mood={mood}
+            floating={false}
+            className="h-24 w-24"
           />
-        ) : null}
-        <BaseAvatar
-          asset={pickAsset(companionProfile)}
-          mood={mood}
-          floating={false}
-          className="h-24 w-24"
-        />
 
-        <AnimatePresence>
-          {bubbleText ? (
-            <motion.div
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 6 }}
-              className={
-                insight === "Thinking..."
-                  ? "absolute -right-2 bottom-28 max-w-60 rounded-2xl border border-sky-400/30 bg-slate-900/95 px-3 py-2 text-xs text-white shadow-xl"
-                  : "absolute -right-2 bottom-28 max-w-60 rounded-2xl border border-white/10 bg-slate-900/90 px-3 py-2 text-xs text-white shadow-xl"
-              }
-            >
-              {insight === "Thinking..." ? (
-                <span className="flex items-center gap-2 text-sky-100">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-400" />
+          <AnimatePresence>
+            {bubbleText ? (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 6 }}
+                className={
+                  insight === "Thinking..."
+                    ? "absolute -right-2 bottom-28 max-w-60 rounded-2xl border border-sky-400/30 bg-slate-900/95 px-3 py-2 text-xs text-white shadow-xl"
+                    : "absolute -right-2 bottom-28 max-w-60 rounded-2xl border border-white/10 bg-slate-900/90 px-3 py-2 text-xs text-white shadow-xl"
+                }
+              >
+                {insight === "Thinking..." ? (
+                  <span className="flex items-center gap-2 text-sky-100">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-400" />
+                    </span>
+                    Thinking...
                   </span>
-                  Thinking...
-                </span>
-              ) : (
-                bubbleText
-              )}
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
+                ) : (
+                  bubbleText
+                )}
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
 
-        <AnimatePresence>
-          {isReportOpen && report ? (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-              className="absolute -right-2 bottom-36 w-[min(22rem,85vw)] max-h-[55vh] overflow-hidden rounded-3xl border border-white/10 bg-slate-950/95 p-4 text-xs text-white shadow-2xl"
-            >
-              <ScrollArea>
-                <div className="text-[11px] uppercase tracking-wide text-slate-400">
-                  Summary report
-                </div>
-                <div className="mt-2 text-sm font-semibold text-slate-100">
-                  {report.summary}
-                </div>
-                <div className="mt-3 space-y-3 overflow-y-auto pr-1 max-h-[40vh]">
-                  {report.highlights.length > 0 && (
-                    <div>
-                      <div className="mb-1 text-[11px] font-semibold uppercase text-emerald-300">
-                        Highlights
+          <AnimatePresence>
+            {isReportOpen && report ? (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                className="absolute -right-2 bottom-36 w-[min(22rem,85vw)] max-h-[55vh] overflow-hidden rounded-3xl border border-white/10 bg-slate-950/95 p-4 text-xs text-white shadow-2xl"
+              >
+                <ScrollArea>
+                  <div className="text-[11px] uppercase tracking-wide text-slate-400">
+                    Summary report
+                  </div>
+                  <div className="mt-2 text-sm font-semibold text-slate-100">
+                    {report.summary}
+                  </div>
+                  <div className="mt-3 space-y-3 overflow-y-auto pr-1 max-h-[40vh]">
+                    {report.highlights.length > 0 && (
+                      <div>
+                        <div className="mb-1 text-[11px] font-semibold uppercase text-emerald-300">
+                          Highlights
+                        </div>
+                        <ul className="space-y-1 text-slate-200">
+                          {report.highlights.map((item, index) => (
+                            <li
+                              key={`report-highlight-${index}`}
+                              className="flex gap-2"
+                            >
+                              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <ul className="space-y-1 text-slate-200">
-                        {report.highlights.map((item, index) => (
-                          <li
-                            key={`report-highlight-${index}`}
-                            className="flex gap-2"
-                          >
-                            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {report.risks.length > 0 && (
-                    <div>
-                      <div className="mb-1 text-[11px] font-semibold uppercase text-rose-300">
-                        Risks
+                    )}
+                    {report.risks.length > 0 && (
+                      <div>
+                        <div className="mb-1 text-[11px] font-semibold uppercase text-rose-300">
+                          Risks
+                        </div>
+                        <ul className="space-y-1 text-slate-200">
+                          {report.risks.map((item, index) => (
+                            <li
+                              key={`report-risk-${index}`}
+                              className="flex gap-2"
+                            >
+                              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-300" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <ul className="space-y-1 text-slate-200">
-                        {report.risks.map((item, index) => (
-                          <li
-                            key={`report-risk-${index}`}
-                            className="flex gap-2"
-                          >
-                            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-300" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {report.suggests.length > 0 && (
-                    <div>
-                      <div className="mb-1 text-[11px] font-semibold uppercase text-sky-300">
-                        Suggestions
+                    )}
+                    {report.suggests.length > 0 && (
+                      <div>
+                        <div className="mb-1 text-[11px] font-semibold uppercase text-sky-300">
+                          Suggestions
+                        </div>
+                        <ul className="space-y-1 text-slate-200">
+                          {report.suggests.map((item, index) => (
+                            <li
+                              key={`report-suggest-${index}`}
+                              className="flex gap-2"
+                            >
+                              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-300" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <ul className="space-y-1 text-slate-200">
-                        {report.suggests.map((item, index) => (
-                          <li
-                            key={`report-suggest-${index}`}
-                            className="flex gap-2"
-                          >
-                            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-300" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                    )}
+                  </div>
+                </ScrollArea>
+                <div className="mt-3 text-[11px] text-slate-400">
+                  Tap the hub to close.
                 </div>
-              </ScrollArea>
-              <div className="mt-3 text-[11px] text-slate-400">
-                Tap the hub to close.
-              </div>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
-      </motion.div>
-    </div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </>
   );
 }

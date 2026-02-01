@@ -145,7 +145,7 @@ export const columns: ColumnDef<TransactionOutput>[] = [
         (row.original.paidByUserId === row.original.accountOwnerId
           ? ownerEmail
           : undefined) ||
-        "Unknown";
+        "You";
 
       return <span className="truncate">{displayName}</span>;
     },

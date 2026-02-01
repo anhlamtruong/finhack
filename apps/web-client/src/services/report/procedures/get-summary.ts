@@ -3,7 +3,15 @@ import { accounts, categories, transactions } from "@/db/schema";
 import { calculatePercentageChange, fillMissingDays } from "@/lib/utils";
 import { authedProcedure } from "@/server/init";
 import { TRPCError } from "@trpc/server";
-import { differenceInDays, parse, subDays } from "date-fns";
+import {
+  differenceInDays,
+  endOfDay,
+  endOfMonth,
+  parse,
+  startOfDay,
+  startOfMonth,
+  subDays,
+} from "date-fns";
 import { and, desc, eq, gte, lt, lte, sql, sum } from "drizzle-orm";
 import { z } from "zod";
 
@@ -26,12 +34,14 @@ export const getSummary = authedProcedure
       : never;
 
     try {
-      const defaultTo = new Date();
-      const defaultFrom = subDays(defaultTo, 30);
+      const defaultTo = endOfMonth(new Date());
+      const defaultFrom = startOfMonth(defaultTo);
       const startDate = from
-        ? parse(from, "yyyy-MM-dd", new Date())
+        ? startOfDay(parse(from, "yyyy-MM-dd", new Date()))
         : defaultFrom;
-      const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
+      const endDate = to
+        ? endOfDay(parse(to, "yyyy-MM-dd", new Date()))
+        : defaultTo;
 
       const periodLength = differenceInDays(endDate, startDate) + 1;
       const lastPeriodStart = subDays(startDate, periodLength);

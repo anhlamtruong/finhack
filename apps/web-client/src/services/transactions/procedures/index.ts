@@ -5,3 +5,4 @@ export * from "./delete-transaction";
 export * from "./post-transactions";
 export * from "./post-transaction";
 export * from "./patch-transaction";
+export * from "./parse-voice";

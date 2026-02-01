@@ -25,7 +25,7 @@ const PrivacyPage = () => {
           <strong>Effective Date:</strong> January 25, 2026
         </p>
         <p className="text-base text-foreground/80 leading-relaxed max-w-3xl">
-          Chuchube Finance (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;)
+          FinHack Finance (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;)
           is committed to protecting your privacy. This Privacy Policy explains
           how we collect, use, disclose, and safeguard your information when you
           visit our application. Please read this privacy policy carefully. If

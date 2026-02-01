@@ -82,7 +82,7 @@ const DEFAULT_VITALS: CompanionVitals = {
 export const companions = pgTable("companions", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull(),
-  name: text("name").notNull().default("Chuchube"),
+  name: text("name").notNull().default("FinHack"),
   archetype: text("archetype").notNull().default("guardian"),
   prompt: text("prompt"),
   personality: jsonb("personality")

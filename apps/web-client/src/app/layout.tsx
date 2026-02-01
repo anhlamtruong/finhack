@@ -21,11 +21,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Strict Budgeting. Smart Reminders. Shared Wealth. | Chuchube Finance",
+  title: "Strict Budgeting. Smart Reminders. Shared Wealth. | FinHack Finance",
   description:
     "The strict financial app for partners. Set hard limits, get proactive reminders before you overspend, and build wealth together.",
-  applicationName: "Chuchube Finance",
-  authors: [{ name: "Chuchube Team" }],
+  applicationName: "FinHack Finance",
+  authors: [{ name: "FinHack Team" }],
   keywords: [
     "budgeting app",
     "finance for couples",
@@ -34,17 +34,17 @@ export const metadata: Metadata = {
   ],
 
   openGraph: {
-    title: "Chuchube Finance | Master Your Money",
+    title: "FinHack Finance | Master Your Money",
     description:
       "The strict financial app for partners. Build wealth together.",
     url: "https://chuchube.co",
-    siteName: "Chuchube Finance",
+    siteName: "FinHack Finance",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Chuchube Finance Dashboard Preview",
+        alt: "FinHack Finance Dashboard Preview",
       },
     ],
     locale: "en_US",

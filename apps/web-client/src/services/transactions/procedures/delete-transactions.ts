@@ -3,6 +3,7 @@ import { and, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { accounts, transactions } from "@/db/schema"; //
 import { authedProcedure } from "@/server/init";
+import { refreshMonthlyReportsForDates } from "@/services/monthly-report/utils/refresh-monthly-reports";
 import { TRPCError } from "@trpc/server";
 
 export const deleteTransactions = authedProcedure
@@ -45,11 +46,30 @@ export const deleteTransactions = authedProcedure
               sql`(select id from ${transactionsToDelete})`,
             ),
           )
-          .returning({ id: transactions.id });
+          .returning({ id: transactions.id, date: transactions.date });
       };
       const deletedData = secureDb
         ? await secureDb.rls(runDelete)
         : await runDelete(db);
+
+      const reportDates = deletedData.map((row) => row.date);
+      if (reportDates.length) {
+        if (secureDb) {
+          await secureDb.rls((tx) =>
+            refreshMonthlyReportsForDates({
+              db: tx,
+              userId: ctx.user.id,
+              dates: reportDates,
+            }),
+          );
+        } else {
+          await refreshMonthlyReportsForDates({
+            db,
+            userId: ctx.user.id,
+            dates: reportDates,
+          });
+        }
+      }
 
       return {
         status: "success",

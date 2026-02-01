@@ -1,8 +1,8 @@
-#+ Chuchube Finance — Application Summary
+#+ FinHack Finance — Application Summary
 
 ## Overview
 
-Chuchube Finance is an intelligent personal finance and budgeting dashboard focused on making transaction tracking, category editing, and daily money guidance fast and fun. The system combines a Next.js dashboard, a Supabase-backed data store, and a lightweight AI service for categorization, recurring detection, and coaching.
+FinHack Finance is an intelligent personal finance and budgeting dashboard focused on making transaction tracking, category editing, and daily money guidance fast and fun. The system combines a Next.js dashboard, a Supabase-backed data store, and a lightweight AI service for categorization, recurring detection, and coaching.
 
 ## Core Capabilities
 
@@ -62,7 +62,7 @@ Copy/paste this prompt into an AI to get a step‑by‑step integration plan:
 
 **Prompt**
 
-You are a senior full‑stack engineer. I need a step‑by‑step plan to integrate **Quiltt** (Plaid alternative) into a finance app called **Chuchube Finance**.
+You are a senior full‑stack engineer. I need a step‑by‑step plan to integrate **Quiltt** (Plaid alternative) into a finance app called **FinHack Finance**.
 
 Context:
 
@@ -105,7 +105,7 @@ Copy/paste this prompt into an AI to get a step‑by‑step implementation plan:
 
 **Prompt**
 
-You are a senior full‑stack engineer. I need a step‑by‑step plan to add a feature to **Chuchube Finance** where users can see their **monthly total expenses per category** compared to their **monthly plan/budget**, and at the end of each month a **report/statement** is generated and stored in the database.
+You are a senior full‑stack engineer. I need a step‑by‑step plan to add a feature to **FinHack Finance** where users can see their **monthly total expenses per category** compared to their **monthly plan/budget**, and at the end of each month a **report/statement** is generated and stored in the database.
 
 Context:
 

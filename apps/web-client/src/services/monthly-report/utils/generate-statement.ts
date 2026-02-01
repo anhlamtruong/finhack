@@ -1,7 +1,7 @@
-import { accounts, categories, transactions } from "@/db/schema";
+import { accounts, categories, transactions, walletShares } from "@/db/schema";
 import { monthlyReports } from "@/services/monthly-report/schema";
 import { v4 as uuidv4 } from "uuid";
-import { and, eq, gte, isNotNull, lte, sql } from "drizzle-orm";
+import { and, eq, gte, isNotNull, lte, or, sql } from "drizzle-orm";
 import { endOfMonth, parse } from "date-fns";
 import type { MonthlyReportCategoryBreakdown } from "@/services/monthly-report/schema";
 import type { db as dbClient } from "@/db";
@@ -41,7 +41,7 @@ export const generateMonthlyStatement = async ({
       spent: sql`SUM(
         CASE
           WHEN ${categories.goalType} = 'saving'
-            THEN GREATEST(${transactions.amount}, 0)
+            THEN ${transactions.amount}
           ELSE ABS(LEAST(${transactions.amount}, 0))
         END
       )`.mapWith(Number),

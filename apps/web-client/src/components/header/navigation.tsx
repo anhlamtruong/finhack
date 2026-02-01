@@ -22,6 +22,7 @@ const routes = [
   { href: "/accounts", label: "Accounts" },
   { href: "/categories", label: "Categories" },
   { href: "/reports", label: "Reports" },
+  { href: "/sales", label: "Sales" },
   { href: "/companions", label: "Companions" },
   { href: "/theme-editor", label: "Themes" },
   { href: "/settings", label: "Settings" },

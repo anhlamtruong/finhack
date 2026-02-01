@@ -3,7 +3,7 @@ import { WizardContainer } from "@/services/ai-agent/components/creation-wizard/
 import { CompanionLayoutCard } from "@/services/ai-agent/components/companion-layout-card";
 
 export const metadata: Metadata = {
-  title: "Companion Summoning | Chuchube Finance",
+  title: "Companion Summoning | FinHack Finance",
   description:
     "Create and awaken your AI financial companion with a personalized wizard.",
 };

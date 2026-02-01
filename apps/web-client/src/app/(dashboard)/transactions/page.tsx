@@ -29,6 +29,7 @@ import { UploadButton } from "./upload-button";
 import { ImportCard } from "./import-card";
 import { useCreateTransactions } from "@/services/transactions/hooks/use-create-transactions";
 import { convertAmountToMiliunits } from "@/lib/utils";
+import { VoiceTransactionButton } from "@/services/transactions/components/voice-transaction-button";
 
 enum VARIANTS {
   LIST = "LIST",
@@ -112,12 +113,15 @@ const TransactionsPage = () => {
           <CardTitle className="text-xl line-clamp-1">
             Transactions History
           </CardTitle>
-          <div className="flex items-center gap-x-2">
-            <Button onClick={onOpen} size={"sm"}>
-              <Plus className="size-4 mr-2" />
-              Add New Transaction
-            </Button>
-            <UploadButton onUpload={onUpload} />
+          <div className="flex items-between gap-x-4">
+            <div className="flex items-center gap-x-2">
+              <Button onClick={onOpen} size={"sm"}>
+                <Plus className="size-4 mr-2" />
+                Add New Transaction
+              </Button>
+              <UploadButton onUpload={onUpload} />
+            </div>
+            <VoiceTransactionButton />
           </div>
         </CardHeader>
         <CardContent>

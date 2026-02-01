@@ -29,8 +29,9 @@ export const getTransaction = authedProcedure
               date: transactions.date,
               amount: transactions.amount,
               notes: transactions.notes,
-                paidByUserId: transactions.paidByUserId,
-                isSettlement: transactions.isSettlement,
+              paidByUserId: transactions.paidByUserId,
+              settlementToUserId: transactions.settlementToUserId,
+              isSettlement: transactions.isSettlement,
               account: accounts.name,
               accountId: transactions.accountId,
             })
@@ -57,8 +58,9 @@ export const getTransaction = authedProcedure
             date: transactions.date,
             amount: transactions.amount,
             notes: transactions.notes,
-              paidByUserId: transactions.paidByUserId,
-              isSettlement: transactions.isSettlement,
+            paidByUserId: transactions.paidByUserId,
+            settlementToUserId: transactions.settlementToUserId,
+            isSettlement: transactions.isSettlement,
             account: accounts.name,
             accountId: transactions.accountId,
           })

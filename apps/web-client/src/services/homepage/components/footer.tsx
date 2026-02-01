@@ -19,7 +19,7 @@ export function Footer() {
       <div className="container mx-auto px-4 sm:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex items-center gap-2">
           <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} Chuchube Finance. All rights reserved.
+            &copy; {currentYear} FinHack Finance. All rights reserved.
           </p>
         </div>
 

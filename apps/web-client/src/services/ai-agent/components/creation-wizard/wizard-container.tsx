@@ -61,7 +61,7 @@ export function WizardContainer() {
         if (dismissed) return;
         const raw = response?.data ?? {};
         const draftProfile: DraftCompanion = {
-          name: raw.name ?? "Chuchube",
+          name: raw.name ?? "FinHack",
           archetype: raw.archetype ?? "guardian",
           prompt: raw.prompt ?? prompt,
           personality: raw.personality ?? { tone: "supportive", backstory: "" },

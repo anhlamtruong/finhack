@@ -76,7 +76,7 @@ const app = new Hono().get("/connected-bank", clerkMiddleware(), async (c) => {
       }
       const token = await client.linkTokenCreate({
         user: { client_user_id: auth.userId },
-        client_name: "Chuchube Finance",
+        client_name: "FinHack Finance",
         products: [Products.Transactions],
         country_codes: [CountryCode.Us],
         language: "en",

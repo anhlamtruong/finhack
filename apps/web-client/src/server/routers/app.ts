@@ -1,5 +1,6 @@
 import { authedProcedure, createTRPCRouter, publicProcedure } from "../init";
 import { z } from "zod";
+import { salesRouter } from "./sales";
 import {
   acceptInvite,
   companionInteract,
@@ -34,6 +35,7 @@ import {
   patchAccount,
   patchCategory,
   patchTransaction,
+  parseVoice,
   postAccount,
   postCategory,
   postTransaction,
@@ -87,6 +89,7 @@ export const appRouter = createTRPCRouter({
   getTransaction,
   patchTransaction,
   deleteTransaction,
+  parseVoice,
   getSummary,
   getAiSummary,
   generateDraft,
@@ -98,6 +101,7 @@ export const appRouter = createTRPCRouter({
   companionInteract,
   getMonthlyReports,
   generateMonthlyReport,
+  sales: salesRouter,
 });
 
 export type AppRouter = typeof appRouter;

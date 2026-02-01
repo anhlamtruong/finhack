@@ -75,7 +75,7 @@ Deno.serve(async () => {
           spent: sql`SUM(
             CASE
               WHEN ${categories.goalType} = 'saving'
-                THEN GREATEST(${transactions.amount}, 0)
+                THEN ${transactions.amount}
               ELSE ABS(LEAST(${transactions.amount}, 0))
             END
           )`.mapWith(Number),

@@ -66,7 +66,7 @@ export function Hero() {
               className="mt-6 text-xl leading-8 text-muted-foreground max-w-2xl mx-auto"
             >
               Say goodbye to tedious spreadsheets and manual data entry.
-              Chuchube Finance is the playful, AI-powered companion that
+              FinHack Finance is the playful, AI-powered companion that
               automates your tracking, visualizes your wealth, and adapts to
               your unique aesthetic.
             </motion.p>
@@ -118,7 +118,7 @@ export function Hero() {
               {" "}
               <img
                 src="/og-image.png"
-                alt="Chuchube Finance Dashboard"
+                alt="FinHack Finance Dashboard"
                 className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-xl pointer-events-none" />

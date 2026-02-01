@@ -4,11 +4,11 @@ import { DataGrid } from "@/services/dashboard/components/data-grid";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard | Chuchube Finance",
+  title: "Dashboard | FinHack Finance",
   description:
     "Your financial command center. View your live net worth, monitor shared accounts, and get AI-powered insights on your spending limits.",
   openGraph: {
-    title: "Financial Dashboard | Chuchube Finance",
+    title: "Financial Dashboard | FinHack Finance",
     description: "View your live net worth and monitor shared accounts.",
     url: "https://chuchube.co/dashboard",
   },

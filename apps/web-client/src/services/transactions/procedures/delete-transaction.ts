@@ -3,6 +3,7 @@ import { and, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { accounts, transactions } from "@/db/schema";
 import { authedProcedure } from "@/server/init";
+import { refreshMonthlyReportsForDates } from "@/services/monthly-report/utils/refresh-monthly-reports";
 import { TRPCError } from "@trpc/server";
 
 export const deleteTransaction = authedProcedure
@@ -52,6 +53,23 @@ export const deleteTransaction = authedProcedure
           code: "NOT_FOUND",
           message:
             "Transaction not found or you do not have permission to delete it.",
+        });
+      }
+
+      const reportDates = [data?.date];
+      if (secureDb) {
+        await secureDb.rls((tx) =>
+          refreshMonthlyReportsForDates({
+            db: tx,
+            userId: ctx.user.id,
+            dates: reportDates,
+          }),
+        );
+      } else {
+        await refreshMonthlyReportsForDates({
+          db,
+          userId: ctx.user.id,
+          dates: reportDates,
         });
       }
 

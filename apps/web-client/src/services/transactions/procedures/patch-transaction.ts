@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { accounts, insertTransactionsSchema, transactions } from "@/db/schema";
 import { authedProcedure } from "@/server/init";
+import { refreshMonthlyReportsForDates } from "@/services/monthly-report/utils/refresh-monthly-reports";
 import { TRPCError } from "@trpc/server";
 import { and, eq, inArray, sql } from "drizzle-orm";
 
@@ -15,6 +16,14 @@ export const patchTransaction = authedProcedure
       ) => Promise<unknown> ? T
         : never;
       const runUpdate = async (dbClient: DbTransaction | typeof db) => {
+        const [existing] = await dbClient
+          .select({ id: transactions.id, date: transactions.date })
+          .from(transactions)
+          .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+          .where(
+            and(eq(transactions.id, id), eq(accounts.userId, ctx.user.id)),
+          )
+          .limit(1);
         const transactionsToUpdate = dbClient
           .$with("transactions_to_update")
           .as(
@@ -37,17 +46,36 @@ export const patchTransaction = authedProcedure
             ),
           )
           .returning();
-        return data;
+        return { data, existingDate: existing?.date };
       };
-      const data = secureDb
+      const result = secureDb
         ? await secureDb.rls(runUpdate)
         : await runUpdate(db);
+      const data = result?.data;
 
       if (!data) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message:
             "Transaction not found or you do not have permission to update it.",
+        });
+      }
+
+      const reportDates = [result?.existingDate, data?.date];
+
+      if (secureDb) {
+        await secureDb.rls((tx) =>
+          refreshMonthlyReportsForDates({
+            db: tx,
+            userId: ctx.user.id,
+            dates: reportDates,
+          }),
+        );
+      } else {
+        await refreshMonthlyReportsForDates({
+          db,
+          userId: ctx.user.id,
+          dates: reportDates,
         });
       }
 
