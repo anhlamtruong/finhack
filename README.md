@@ -1,7 +1,7 @@
 
 <div align="center">
 
-<a href="https://devpost.com/software/finance-queens"><b>🏆 Devpost: Finance Queens</b></a>
+<a href="https://devpost.com/software/finance-queens"><b>🏆 Devpost: FinHack </b></a>
 
 <br/>
 
