@@ -157,8 +157,9 @@ Streamlit pages live in `pages/`:
 
 ```bash
 curl -sS http://127.0.0.1:8080/v1/transactions/ping | jq .
-
+  
 #  replace USER_ID
 USER_ID="<user_id>"
 curl -sS "http://127.0.0.1:8080/v1/transactions/history?userId=${USER_ID}&days=30&limit=5" | jq '{ok,count,summary}'
 ```
+
