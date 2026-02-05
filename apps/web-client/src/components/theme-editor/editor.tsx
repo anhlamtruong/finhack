@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/resizable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useEditorStore } from "@/store/editor-store";
+import { useEditorStore } from "@/services/theme";
 import { Sliders } from "lucide-react";
 import React from "react";
 import ThemePreviewPanel from "./theme-preview-panel";
@@ -27,7 +27,7 @@ export default function Editor({ className = "" }: { className?: string }) {
       const prev = useEditorStore.getState().themeState;
       setThemeState({ ...prev, styles: newStyles });
     },
-    [setThemeState]
+    [setThemeState],
   );
 
   if (isMobile) {
@@ -35,7 +35,7 @@ export default function Editor({ className = "" }: { className?: string }) {
       <div
         className={cn(
           "relative isolate flex flex-1 overflow-hidden",
-          className
+          className,
         )}
       >
         <div className="size-full flex-1 overflow-hidden">
@@ -79,7 +79,7 @@ export default function Editor({ className = "" }: { className?: string }) {
     <div
       className={cn(
         className,
-        "relative isolate flex flex-1 overflow-hidden h-screen"
+        "relative isolate flex flex-1 overflow-hidden h-screen",
       )}
     >
       <div className="size-full">

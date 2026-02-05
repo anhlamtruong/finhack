@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { useFullscreen } from "@/hooks/use-fullscreen";
 import { useThemeInspector } from "@/hooks/inspector/use-theme-inspector";
 import { cn } from "@/lib/utils";
-import { ThemeEditorPreviewProps } from "@/types/theme";
+import { ThemeEditorPreviewProps } from "@/services/theme";
 import {
   Inspect,
   LayoutDashboard,
@@ -37,7 +37,7 @@ const DemoMail = lazy(() => import("@/components/examples/mail"));
 const DemoDashboard = lazy(() => import("@/components/examples/dashboard"));
 const DemoPricing = lazy(() => import("@/components/examples/pricing/pricing"));
 const TypographyDemo = lazy(
-  () => import("@/components/examples/typography/typography-demo")
+  () => import("@/components/examples/typography/typography-demo"),
 );
 const MusicDemo = lazy(() => import("@/components/examples/music/index"));
 
@@ -72,7 +72,7 @@ const ThemePreviewPanel = ({
       <div
         className={cn(
           "flex min-h-0 flex-1 flex-col",
-          isFullscreen && "bg-background fixed inset-0 z-50"
+          isFullscreen && "bg-background fixed inset-0 z-50",
         )}
       >
         <Tabs
@@ -142,7 +142,7 @@ const ThemePreviewPanel = ({
                   className={cn(
                     "group size-8",
                     inspectorEnabled &&
-                      "bg-accent text-accent-foreground w-auto"
+                      "bg-accent text-accent-foreground w-auto",
                   )}
                 >
                   <Inspect className="transition-all group-hover:scale-120" />

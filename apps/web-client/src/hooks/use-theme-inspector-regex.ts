@@ -1,6 +1,6 @@
 "use client";
 
-import { defaultLightThemeStyles } from "@/config/theme";
+import { defaultLightThemeStyles } from "@/services/theme";
 
 const createThemeClassRegex = () => {
   const excludePrefixes = ["font-", "shadow-", "letter-spacing", "spacing", "radius"];

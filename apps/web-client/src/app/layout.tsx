@@ -3,11 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/provider/query-provider";
 import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeProvider } from "@/components/theme-editor/theme-provider";
+import { ThemeProvider, ThemeLoader } from "@/services/theme";
 import { Toaster } from "@/components/ui/sonner";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { TRPCReactProvider } from "@/trpc/client";
-import { ThemeLoader } from "@/components/theme-editor/theme-loader";
 import { Suspense } from "react";
 
 const geistSans = Geist({

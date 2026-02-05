@@ -15,14 +15,18 @@ import { HorizontalScrollArea } from "@/components/horizontal-scroll-area";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
-import { COMMON_STYLES, defaultThemeState } from "@/config/theme";
+import {
+  COMMON_STYLES,
+  defaultThemeState,
+  useEditorStore,
+  ThemeStyles,
+  ThemeStyleProps,
+} from "@/services/theme";
 import {
   useControlsTabFromUrl,
   type ControlTab,
 } from "@/hooks/use-controls-tab-from-url";
-import { useEditorStore } from "@/store/editor-store";
 import { type FontInfo } from "@/types/fonts";
-import { ThemeStyles, ThemeStyleProps } from "@/types/theme";
 import { buildFontFamily } from "@/lib/fonts";
 import { getAppliedThemeFont } from "@/lib/theme-fonts";
 
@@ -46,13 +50,13 @@ const ThemeControlPanel = ({
       ...defaultThemeState.styles[currentMode],
       ...styles?.[currentMode],
     }),
-    [currentMode, styles]
+    [currentMode, styles],
   );
 
   const updateStyle = React.useCallback(
     <K extends keyof typeof currentStyles>(
       key: K,
-      value: (typeof currentStyles)[K]
+      value: (typeof currentStyles)[K],
     ) => {
       // apply common styles (like radius) to both light and dark modes
       if (COMMON_STYLES.includes(key as string)) {
@@ -73,7 +77,7 @@ const ThemeControlPanel = ({
         },
       });
     },
-    [onChange, styles, currentMode]
+    [onChange, styles, currentMode],
   );
 
   // Parse radius for the slider
@@ -288,7 +292,7 @@ const ThemeControlPanel = ({
                     onSelect={(font: FontInfo) => {
                       const fontFamily = buildFontFamily(
                         font.family,
-                        font.category
+                        font.category,
                       );
                       updateStyle("font-sans", fontFamily);
                     }}
@@ -307,7 +311,7 @@ const ThemeControlPanel = ({
                     onSelect={(font: FontInfo) => {
                       const fontFamily = buildFontFamily(
                         font.family,
-                        font.category
+                        font.category,
                       );
                       updateStyle("font-serif", fontFamily);
                     }}
@@ -326,7 +330,7 @@ const ThemeControlPanel = ({
                     onSelect={(font: FontInfo) => {
                       const fontFamily = buildFontFamily(
                         font.family,
-                        font.category
+                        font.category,
                       );
                       updateStyle("font-mono", fontFamily);
                     }}
@@ -336,7 +340,7 @@ const ThemeControlPanel = ({
               <ControlSection title="Letter Spacing" expanded>
                 <SliderWithInput
                   value={parseFloat(
-                    currentStyles["letter-spacing"]?.replace("em", "")
+                    currentStyles["letter-spacing"]?.replace("em", ""),
                   )}
                   onChange={(value) =>
                     updateStyle("letter-spacing", `${value}em`)
@@ -373,19 +377,19 @@ const ThemeControlPanel = ({
                 <ShadowControl
                   shadowColor={currentStyles["shadow-color"] || "0deg 0% 0%"}
                   shadowOpacity={parseFloat(
-                    currentStyles["shadow-opacity"] || "0"
+                    currentStyles["shadow-opacity"] || "0",
                   )}
                   shadowBlur={parseFloat(
-                    currentStyles["shadow-blur"]?.replace("px", "") || "0"
+                    currentStyles["shadow-blur"]?.replace("px", "") || "0",
                   )}
                   shadowSpread={parseFloat(
-                    currentStyles["shadow-spread"]?.replace("px", "") || "0"
+                    currentStyles["shadow-spread"]?.replace("px", "") || "0",
                   )}
                   shadowOffsetX={parseFloat(
-                    currentStyles["shadow-offset-x"]?.replace("px", "") || "0"
+                    currentStyles["shadow-offset-x"]?.replace("px", "") || "0",
                   )}
                   shadowOffsetY={parseFloat(
-                    currentStyles["shadow-offset-y"]?.replace("px", "") || "0"
+                    currentStyles["shadow-offset-y"]?.replace("px", "") || "0",
                   )}
                   onChange={(key, value) => {
                     if (key === "shadow-color") {

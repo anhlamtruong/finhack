@@ -1,4 +1,4 @@
-import { ThemeEditorPreviewProps } from "@/types/theme";
+import { ThemeEditorPreviewProps } from "@/services/theme";
 import { Settings, Info, AlertTriangle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,7 +26,10 @@ interface ComponentsShowcaseProps {
   currentMode: ThemeEditorPreviewProps["currentMode"];
 }
 
-const ComponentsShowcase = ({ styles, currentMode }: ComponentsShowcaseProps) => {
+const ComponentsShowcase = ({
+  styles,
+  currentMode,
+}: ComponentsShowcaseProps) => {
   if (!styles || !styles[currentMode]) {
     return null;
   }
@@ -62,7 +65,9 @@ const ComponentsShowcase = ({ styles, currentMode }: ComponentsShowcaseProps) =>
 
       {/* Cards & Containers */}
       <section className="space-y-3">
-        <h3 className="text-sm font-medium border-b pb-2">Cards & Containers</h3>
+        <h3 className="text-sm font-medium border-b pb-2">
+          Cards & Containers
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Card>
             <CardHeader>
@@ -73,8 +78,8 @@ const ComponentsShowcase = ({ styles, currentMode }: ComponentsShowcaseProps) =>
             </CardHeader>
             <CardContent>
               <p className="text-sm">
-                This card demonstrates the card background and foreground colors,
-                with content showing regular text.
+                This card demonstrates the card background and foreground
+                colors, with content showing regular text.
               </p>
             </CardContent>
             <CardFooter className="flex justify-between">
@@ -180,7 +185,10 @@ const ComponentsShowcase = ({ styles, currentMode }: ComponentsShowcaseProps) =>
             <TableRow>
               <TableCell className="font-medium">Alex Johnson</TableCell>
               <TableCell>
-                <Badge variant="outline" className="bg-green-500/10 text-green-600">
+                <Badge
+                  variant="outline"
+                  className="bg-green-500/10 text-green-600"
+                >
                   Active
                 </Badge>
               </TableCell>

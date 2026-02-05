@@ -275,7 +275,7 @@ export const companionInteract = authedProcedure
                 : undefined,
             },
           },
-          { timeout: 12000 },
+          { timeout: 60000 },
         );
 
         const summary = llmResponse.data?.summary ?? llmResponse.data?.reply;

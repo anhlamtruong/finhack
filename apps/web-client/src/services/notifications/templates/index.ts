@@ -38,12 +38,16 @@ export function renderEmailTemplate(
     case "shared-transaction":
       return {
         subject: sharedTransactionSubject,
-        ...renderSharedTransactionEmail(input),
+        ...renderSharedTransactionEmail(
+          input as TemplateInputMap["shared-transaction"],
+        ),
       };
     case "uncategorized-transaction":
       return {
         subject: uncategorizedTransactionSubject,
-        ...renderUncategorizedTransactionEmail(input),
+        ...renderUncategorizedTransactionEmail(
+          input as TemplateInputMap["uncategorized-transaction"],
+        ),
       };
   }
 

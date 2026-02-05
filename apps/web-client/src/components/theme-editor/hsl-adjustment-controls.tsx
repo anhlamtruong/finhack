@@ -8,9 +8,12 @@ import React, {
   useState,
 } from "react";
 import { SliderWithInput } from "./slider-with-input";
-import { useEditorStore } from "../../store/editor-store";
-import { COMMON_STYLES, defaultThemeState } from "../../config/theme";
-import { ThemeEditorState } from "@/types/editor";
+import {
+  useEditorStore,
+  COMMON_STYLES,
+  defaultThemeState,
+  ThemeEditorState,
+} from "@/services/theme";
 import { converter, formatHex, Hsl } from "culori";
 import { debounce } from "@/lib/debounce";
 import { isDeepEqual } from "@/lib/utils";
@@ -24,7 +27,7 @@ function adjustColorByHsl(
   color: string,
   hueShift: number,
   saturationScale: number,
-  lightnessScale: number
+  lightnessScale: number,
 ): string {
   const hsl = converter("hsl")(color);
   const h = hsl?.h;
@@ -115,7 +118,7 @@ const HslAdjustmentControls = () => {
   // Get current HSL adjustments with fallback to defaults
   const currentHslAdjustments = useMemo(
     () => themeState.hslAdjustments ?? defaultThemeState.hslAdjustments!,
-    [themeState.hslAdjustments]
+    [themeState.hslAdjustments],
   );
 
   // Save checkpoint if HSL adjustments are at default values
@@ -151,7 +154,7 @@ const HslAdjustmentControls = () => {
                 lightStyles[colorKey] || "",
                 adjustments.hueShift,
                 adjustments.saturationScale,
-                adjustments.lightnessScale
+                adjustments.lightnessScale,
               ),
             };
           }, {});
@@ -166,7 +169,7 @@ const HslAdjustmentControls = () => {
                 darkStyles[colorKey] || "",
                 adjustments.hueShift,
                 adjustments.saturationScale,
-                adjustments.lightnessScale
+                adjustments.lightnessScale,
               ),
             };
           }, {});
@@ -181,7 +184,7 @@ const HslAdjustmentControls = () => {
           },
         });
       },
-      10
+      10,
     );
 
     return () => debouncedUpdateRef.current?.cancel();
@@ -197,7 +200,7 @@ const HslAdjustmentControls = () => {
         });
       }
     },
-    [currentHslAdjustments]
+    [currentHslAdjustments],
   );
 
   const handleBatchHslChange = useCallback(
@@ -206,7 +209,7 @@ const HslAdjustmentControls = () => {
         debouncedUpdateRef.current(value);
       }
     },
-    []
+    [],
   );
 
   const currentStyles = (themeCheckpoint ?? themeState).styles[
@@ -219,7 +222,7 @@ const HslAdjustmentControls = () => {
       <div
         className={cn(
           "-m-1 mb-2 grid grid-cols-5 gap-2 overflow-hidden p-1 transition-all duration-300 ease-in-out @sm:grid-cols-7 @md:grid-cols-9 @lg:grid-cols-11 @xl:grid-cols-13",
-          !isExpanded ? "h-10" : "h-auto"
+          !isExpanded ? "h-10" : "h-auto",
         )}
       >
         {HSL_PRESETS.map((preset) => (
@@ -258,7 +261,7 @@ const HslAdjustmentControls = () => {
           <ChevronDown
             className={cn(
               "ml-1 h-4 w-4 transition-transform duration-200",
-              isExpanded && "rotate-180"
+              isExpanded && "rotate-180",
             )}
           />
         </Button>

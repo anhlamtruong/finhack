@@ -1,4 +1,4 @@
-import { ThemeEditorState } from "@/types/editor";
+import { ThemeEditorState } from "@/services/theme";
 import { SYSTEM_FONTS } from "@/lib/fonts";
 
 const sansSerifFontNames = [

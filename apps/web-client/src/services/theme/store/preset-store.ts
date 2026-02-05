@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { ThemePreset, defaultPresets } from "@/services/theme";
+import { ThemePreset } from "../types";
+import { defaultPresets } from "../presets/built-in";
 
 interface ThemePresetStore {
   presets: Record<string, ThemePreset>;
@@ -11,7 +12,9 @@ interface ThemePresetStore {
 }
 
 export const useThemePresetStore = create<ThemePresetStore>()((set, get) => ({
+  // The store initializes immediately with your local defaultPresets
   presets: defaultPresets,
+
   registerPreset: (name: string, preset: ThemePreset) => {
     set((state) => ({
       presets: {

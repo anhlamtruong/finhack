@@ -23,10 +23,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { useEditorStore } from "@/store/editor-store";
-import { useThemePresetStore } from "@/store/theme-preset-store";
-// import { ThemePreset } from "@/types/theme";
-import { getPresetThemeStyles } from "@/lib/theme-preset-helper";
+import {
+  useEditorStore,
+  useThemePresetStore,
+  getPresetThemeStyles,
+  defaultThemeState,
+} from "@/services/theme";
 import {
   ArrowLeft,
   ArrowRight,
@@ -37,7 +39,7 @@ import {
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ThemeToggle } from "./theme-toggle-v2"; // Ensure this path is correct
 import { TooltipWrapper } from "@/components/tooltip-wrapper";
-import { defaultThemeState } from "@/config/theme";
+
 interface ThemePresetSelectProps extends React.ComponentProps<typeof Button> {
   withCycleThemes?: boolean;
 }
@@ -76,7 +78,7 @@ const ThemeControls = () => {
 
   const presetNames = useMemo(
     () => ["default", ...Object.keys(presets)],
-    [presets]
+    [presets],
   );
 
   const randomize = useCallback(() => {
@@ -134,8 +136,9 @@ const ThemeCycleButton: React.FC<ThemeCycleButtonProps> = ({
   </Tooltip>
 );
 
-interface ThemePresetCycleControlsProps
-  extends React.ComponentProps<typeof Button> {
+interface ThemePresetCycleControlsProps extends React.ComponentProps<
+  typeof Button
+> {
   filteredPresets: string[];
   currentPresetName: string;
   className?: string;
@@ -153,7 +156,7 @@ const ThemePresetCycleControls: React.FC<ThemePresetCycleControlsProps> = ({
     // eslint-disable-next-line react-hooks/preserve-manual-memoization
     useMemo(
       () => filteredPresets.indexOf(currentPresetName || "default"),
-      [filteredPresets, currentPresetName]
+      [filteredPresets, currentPresetName],
     ) ?? 0;
 
   const cycleTheme = useCallback(
@@ -165,7 +168,7 @@ const ThemePresetCycleControls: React.FC<ThemePresetCycleControlsProps> = ({
             filteredPresets.length;
       applyThemePreset(filteredPresets[newIndex]);
     },
-    [currentIndex, filteredPresets, applyThemePreset]
+    [currentIndex, filteredPresets, applyThemePreset],
   );
   return (
     <>
@@ -218,7 +221,7 @@ const ThemePresetSelect: React.FC<ThemePresetSelectProps> = ({
 
   const presetNames = useMemo(
     () => ["default", ...Object.keys(presets)],
-    [presets]
+    [presets],
   );
   const currentPresetName = presetNames?.find((name) => name === currentPreset);
 
@@ -243,7 +246,7 @@ const ThemePresetSelect: React.FC<ThemePresetSelectProps> = ({
             variant="ghost"
             className={cn(
               "group relative w-full justify-between md:min-w-56",
-              className
+              className,
             )}
             {...props}
           >
